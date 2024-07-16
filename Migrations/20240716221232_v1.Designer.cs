@@ -12,8 +12,8 @@ using SongApi.Data;
 namespace SongApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240708225605_v2")]
-    partial class v2
+    [Migration("20240716221232_v1")]
+    partial class v1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

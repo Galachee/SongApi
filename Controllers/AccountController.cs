@@ -27,14 +27,14 @@ public class AccountController : ControllerBase
          Username = model.Username,
          Email = model.Email
       };
+      
       var password = model.Password;
       user.PasswordHash = PasswordHasher.Hash(password);
-
       try
       {
-         await context.Users.AddAsync(user);
+         
+         await context.Users.AddAsync(user); 
          await context.SaveChangesAsync();
-
          return Ok(new ResultViewModel<dynamic>(new
          {
             user = user.Email, password,
