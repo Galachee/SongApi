@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
-using SongApi.Enums;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace SongApi.Controllers;
 

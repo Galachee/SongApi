@@ -6,6 +6,5 @@ public class Role
 
     public string Name { get; set; } = null!;
     public string Slug { get; set; } = null!;
-
     public IList<User>? Users { get; set; } 
 }
