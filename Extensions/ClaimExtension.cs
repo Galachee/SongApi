@@ -14,4 +14,9 @@ public static class ClaimExtension
         result.AddRange(user.Roles.Select(role=> new Claim(ClaimTypes.Role, role.Slug)));
         return result;
     }
+
+    public static string GetUserEmail(this ClaimsPrincipal user)
+    {
+        return user?.FindFirst(ClaimTypes.Name)?.Value!;
+    }
 }

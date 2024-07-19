@@ -10,7 +10,7 @@ public class User
 
     public string PasswordHash { get; set; } = null!;
 
-    public IList<Playlist> Playlists { get; set; } = new List<Playlist>();
+    public IList<Playlist>? Playlists { get; set; }
 
     public IList<Role> Roles { get; set; } = null!;
 }

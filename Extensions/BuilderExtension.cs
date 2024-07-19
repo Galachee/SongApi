@@ -15,25 +15,26 @@ public static class BuilderExtension
     
     public static void SetSecretKeys(this WebApplicationBuilder builder)
     {
-        var key = builder.Configuration["JwtKey"];
+        var key = builder.Configuration.GetValue<string>("JwtKey");
         if (string.IsNullOrEmpty(key))
         {
             throw new SecurityException("Chave JWT vazia");
         }
-
-        var connectionString = builder.Configuration.GetSection("ConnectionStrings").GetValue<string>("DefaultConnection");
         Configuration.SecretsKeys.JwtKey = Encoding.ASCII.GetBytes(key);
-        Configuration.DatabaseConfiguration.ConnectionString = connectionString ?? string.Empty;
+        Configuration.DatabaseConfiguration.ConnectionString =  builder.Configuration.GetSection("ConnectionStrings").GetValue<string>("DefaultConnection");
     }
     public static void AddConfiguration(this WebApplicationBuilder builder)
     {
         builder.AddServices();
         builder.ConfigureMvc();
     }
-
     public static void AddServices(this WebApplicationBuilder builder)
     {
-        builder.Services.AddDbContext<AppDbContext>(options => { options.UseSqlServer(Configuration.DatabaseConfiguration.ConnectionString);});
+        builder.Services.AddDbContext<AppDbContext>(options =>
+        {
+            options.UseSqlServer(Configuration.DatabaseConfiguration.ConnectionString);
+        });
+        
         builder.Services.AddTransient<TokenService>();
     }
     public static void ConfigureMvc(this WebApplicationBuilder builder)
@@ -47,6 +48,7 @@ public static class BuilderExtension
                 x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
             });
     }
+    
     public static void ConfigureAuthentication(this WebApplicationBuilder builder)
     {
         builder.Services.AddAuthentication(x =>
