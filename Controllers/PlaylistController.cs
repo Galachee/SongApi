@@ -43,7 +43,8 @@ public class PlaylistController : ControllerBase
         var user = await context.Users.FirstOrDefaultAsync(x => x.Email == userEmail);
 
         if (user is null)
-            return NotFound(new ResultViewModel<string>("Erro ao encontrar usuário logado"));
+            return NotFound(new ResultViewModel<string>("Usuário não autenticado"));
+        
         var playlist = new Playlist
         {
             Id = 0,
