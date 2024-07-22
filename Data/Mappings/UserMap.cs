@@ -47,5 +47,13 @@ public class UserMap : IEntityTypeConfiguration<User>
                     .HasForeignKey("UserId")
                     .HasConstraintName("FK_UserRole_UserId")
                     .OnDelete(DeleteBehavior.Cascade));
+        
+        builder
+            .HasMany(x => x.Playlists) 
+            .WithOne(x => x.User) 
+            .HasForeignKey("UserId") 
+            .HasConstraintName("FK_Playlist_UserId")
+            .OnDelete(DeleteBehavior.Cascade);
+        
     }
 }

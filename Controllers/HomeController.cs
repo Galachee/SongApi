@@ -11,5 +11,4 @@ public class HomeController : ControllerBase
     {
         return Ok("HealthCheck");
     }
-    
 }

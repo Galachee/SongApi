@@ -10,4 +10,6 @@ public class Song
     public decimal DurationInMinutes { get; set; }
     
     public Artist Artist { get; set; } = null!;
+
+    public List<Playlist> Playlists { get; set; } = new();
 }

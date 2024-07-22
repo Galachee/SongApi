@@ -9,6 +9,6 @@ public static class Configuration
 
     public static class DatabaseConfiguration
     {
-        public static string ConnectionString { get; set; } = null!;
+        public static string? ConnectionString { get; set; } 
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SongApi.Data;
 
@@ -10,9 +11,11 @@ using SongApi.Data;
 namespace SongApi.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240719141124_v2")]
+    partial class v2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -70,18 +73,17 @@ namespace SongApi.Migrations
                     b.Property<int?>("Genre")
                         .HasColumnType("int");
 
+                    b.Property<int>("PlaylistId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(500)
                         .HasColumnType("NVARCHAR")
                         .HasColumnName("Title");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("PlaylistId");
 
                     b.ToTable("Playlist", (string)null);
                 });
@@ -207,7 +209,7 @@ namespace SongApi.Migrations
                 {
                     b.HasOne("SongApi.Models.User", "User")
                         .WithMany("Playlists")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("PlaylistId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("FK_Playlist_UserId");
