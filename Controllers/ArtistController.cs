@@ -12,7 +12,7 @@ namespace SongApi.Controllers;
 public class ArtistController : ControllerBase
 {
     [HttpGet("v1/artists")]
-    public async Task<IActionResult> GetArtists(
+    public async Task<IActionResult> GetArtistsAsync(
         [FromServices] AppDbContext context)
     {
         var artists = await context.Artists.AsNoTracking()
@@ -21,7 +21,7 @@ public class ArtistController : ControllerBase
     }
 
     [HttpGet("v1/artists{id:int}")]
-    public async Task<IActionResult> GetById(
+    public async Task<IActionResult> GetByIdAsync(
         [FromServices] AppDbContext context,
         [FromRoute] int id)
     {
@@ -33,7 +33,7 @@ public class ArtistController : ControllerBase
     }
 
     [HttpPost("v1/artists")]
-    public async Task<IActionResult> AddArtist(
+    public async Task<IActionResult> AddArtistAsync(
         [FromServices] AppDbContext context,
         [FromBody] EditorArtistViewModel model)
     {
@@ -52,7 +52,7 @@ public class ArtistController : ControllerBase
     }
 
     [HttpPut("v1/artists/{id:int}")]
-    public async Task<IActionResult> UpdateArtist(
+    public async Task<IActionResult> UpdateArtistAsync(
         [FromServices] AppDbContext context,
         [FromRoute] int id,
         [FromBody] EditorArtistViewModel model)
@@ -73,7 +73,7 @@ public class ArtistController : ControllerBase
     }
 
     [HttpDelete("v1/artists/{id:int}")]
-    public async Task<IActionResult> DeleteArtist(
+    public async Task<IActionResult> DeleteArtistAsync(
         [FromServices] AppDbContext context,
         [FromRoute] int id)
     {

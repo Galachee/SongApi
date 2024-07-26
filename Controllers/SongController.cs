@@ -50,7 +50,7 @@ public class SongController : ControllerBase
     }
 
     [HttpPost("v1/songs")]
-    public async Task<IActionResult> CreateSong(
+    public async Task<IActionResult> CreateSongAsync(
         [FromServices] AppDbContext context,
         [FromBody] EditorSongViewModel model)
     {
@@ -77,7 +77,7 @@ public class SongController : ControllerBase
     }
 
     [HttpPut("v1/songs/{id:int}")]
-    public async Task<IActionResult> UpdateSong(
+    public async Task<IActionResult> UpdateSongAsync(
         [FromServices] AppDbContext context,
         [FromRoute] int id,
         [FromBody] EditorSongViewModel model)
@@ -104,7 +104,7 @@ public class SongController : ControllerBase
     }
 
     [HttpDelete("v1/songs/{id:int}")]
-    public async Task<IActionResult> DeleteSong(
+    public async Task<IActionResult> DeleteSongAsync(
         [FromServices] AppDbContext context,
         [FromRoute] int id)
     {

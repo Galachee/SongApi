@@ -15,7 +15,7 @@ namespace SongApi.Controllers;
 public class PlaylistController : ControllerBase
 {
     [HttpGet("v1/playlists")]
-    public async Task<IActionResult> GetPlaylists(
+    public async Task<IActionResult> GetPlaylistsAsync(
         [FromServices] AppDbContext context)
     {
         var playlists = await context.Playlists.
@@ -33,7 +33,7 @@ public class PlaylistController : ControllerBase
 
     [Authorize]
     [HttpPost("v1/playlists")]
-    public async Task<IActionResult> CreatePlaylist(
+    public async Task<IActionResult> CreatePlaylistAsync(
         [FromServices] AppDbContext context,
         [FromBody] EditorPlaylistViewModel model)
     {
