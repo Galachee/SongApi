@@ -11,14 +11,17 @@ using SongApi.ViewModels.Playlists;
 namespace SongApi.Controllers;
 
 [ApiController]
-
 public class PlaylistController : ControllerBase
 {
+    private readonly AppDbContext _context;
+
+    public PlaylistController(AppDbContext context) 
+        => _context = context;
+    
     [HttpGet("v1/playlists")]
-    public async Task<IActionResult> GetPlaylistsAsync(
-        [FromServices] AppDbContext context)
+    public async Task<IActionResult> GetPlaylistsAsync()
     {
-        var playlists = await context.Playlists.
+        var playlists = await _context.Playlists.
             Include(x=>x.User).
             AsNoTracking().
             Select(x=> new
@@ -34,13 +37,12 @@ public class PlaylistController : ControllerBase
     [Authorize]
     [HttpPost("v1/playlists")]
     public async Task<IActionResult> CreatePlaylistAsync(
-        [FromServices] AppDbContext context,
         [FromBody] EditorPlaylistViewModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
         var userEmail = User.GetUserEmail();
-        var user = await context.Users.FirstOrDefaultAsync(x => x.Email == userEmail);
+        var user = await _context.Users.FirstOrDefaultAsync(x => x.Email == userEmail);
 
         if (user is null)
             return NotFound(new ResultViewModel<string>("Usuário não autenticado"));
@@ -54,8 +56,8 @@ public class PlaylistController : ControllerBase
         
         try
         {
-            await context.Playlists.AddAsync(playlist);
-            await context.SaveChangesAsync();
+            await _context.Playlists.AddAsync(playlist);
+            await _context.SaveChangesAsync();
             return Created("v1/playlists", new ResultViewModel<dynamic>(new
             {
                 playlist.Id,
