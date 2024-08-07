@@ -4,7 +4,7 @@ using SecureIdentity.Password;
 using SongApi.Data;
 using SongApi.Extensions;
 using SongApi.Models;
-using SongApi.Services;
+using SongApi.Services.Contracts;
 using SongApi.ViewModels;
 using SongApi.ViewModels.Users;
 
@@ -13,27 +13,36 @@ namespace SongApi.Controllers;
 [ApiController]
 public class AccountController : ControllerBase
 {
+    private readonly AppDbContext _context;
+    private readonly ITokenService _tokenService;
+
+    public AccountController(AppDbContext context, ITokenService tokenService)
+    {
+        _context = context;
+        _tokenService = tokenService;
+    }
+
+
     [HttpPost("v1/accounts/register")]
     public async Task<IActionResult> Register(
-        [FromServices] AppDbContext context,
-        [FromBody] RegisterUserViewModel model)
+        RegisterUserViewModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
-        
+
         var user = new User()
         {
             Id = 0,
             Username = model.Username,
             Email = model.Email
         };
-        
+
         var password = model.Password;
         user.PasswordHash = PasswordHasher.Hash(password);
         try
         {
-            await context.Users.AddAsync(user);
-            await context.SaveChangesAsync();
+            await _context.Users.AddAsync(user);
+            await _context.SaveChangesAsync();
             return Created("v1/accounts", new ResultViewModel<dynamic>(new
             {
                 user = user.Email, password,
@@ -52,14 +61,12 @@ public class AccountController : ControllerBase
 
     [HttpPost("v1/accounts/login")]
     public async Task<IActionResult> Login(
-        [FromServices] AppDbContext context,
-        [FromBody] LoginUserViewModel model,
-        [FromServices] TokenService tokenService)
+        LoginUserViewModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
 
-        var user = await context.Users.Include(x => x.Roles).FirstOrDefaultAsync(x => x.Email == model.Email);
+        var user = await _context.Users.Include(x => x.Roles).FirstOrDefaultAsync(x => x.Email == model.Email);
         if (user == null)
             return StatusCode(401, new ResultViewModel<string>("Usuário não encontrado"));
 
@@ -68,7 +75,7 @@ public class AccountController : ControllerBase
 
         try
         {
-            var token = tokenService.GenerateToken(user);
+            var token = _tokenService.GenerateToken(user);
             return Ok(new ResultViewModel<dynamic>(new
             {
                 token

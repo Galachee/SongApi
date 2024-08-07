@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SongApi.Data;
 using SongApi.Services;
+using SongApi.Services.Contracts;
 
 namespace SongApi.Extensions;
 
@@ -35,7 +36,7 @@ public static class BuilderExtension
             options.UseSqlServer(Configuration.DatabaseConfiguration.ConnectionString);
         });
         
-        builder.Services.AddTransient<TokenService>();
+        builder.Services.AddTransient<ITokenService,TokenService>();
     }
     public static void ConfigureMvc(this WebApplicationBuilder builder)
     {

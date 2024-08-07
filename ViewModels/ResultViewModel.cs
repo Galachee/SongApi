@@ -1,6 +1,6 @@
 ﻿namespace SongApi.ViewModels;
 
-public class ResultViewModel<T>
+public class ResultViewModel<T> where T : class
 {
 
     public ResultViewModel(T data,List<string> errors)

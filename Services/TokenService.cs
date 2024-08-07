@@ -3,10 +3,11 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using SongApi.Extensions;
 using SongApi.Models;
+using SongApi.Services.Contracts;
 
 namespace SongApi.Services;
 
-public class TokenService
+public class TokenService : ITokenService
 {
     public string GenerateToken(User user)
     {

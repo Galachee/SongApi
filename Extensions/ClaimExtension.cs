@@ -15,7 +15,7 @@ public static class ClaimExtension
         return result;
     }
 
-    public static string GetUserEmail(this ClaimsPrincipal user)
+    public static string GetUserEmail(this ClaimsPrincipal? user)
     {
         return user?.FindFirst(ClaimTypes.Name)?.Value!;
     }
