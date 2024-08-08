@@ -12,7 +12,7 @@ public class EditorSongViewModel
     public decimal DurationInMinutes { get; set; }
 
     [Required(ErrorMessage = "O codigo do genero é obrigatorio")]
-    public int Genre { get; set; }
+    public int GenreId { get; set; }
     // public EGenre Genre { get; set; }
 
     [Required(ErrorMessage = "O código do artista é obrigatório")]

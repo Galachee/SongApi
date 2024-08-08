@@ -14,16 +14,14 @@ public class TokenService : ITokenService
         var handler = new JwtSecurityTokenHandler();
         var key = Configuration.SecretsKeys.JwtKey;
         var claims = user.GetClaims();
-        var credencials = new SigningCredentials(new SymmetricSecurityKey(key),SecurityAlgorithms.HmacSha256);
+        var credencials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256);
         var tokenDescriptor = new SecurityTokenDescriptor()
         {
             SigningCredentials = credencials,
             Expires = DateTime.UtcNow.AddHours(2),
             Subject = new ClaimsIdentity(claims)
-        };
-        
+        };  
         var token = handler.CreateToken(tokenDescriptor);
-        
         return handler.WriteToken(token);
     }
 }
