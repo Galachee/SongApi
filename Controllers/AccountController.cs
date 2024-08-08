@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SecureIdentity.Password;
-using SongApi.Data;
 using SongApi.Extensions;
 using SongApi.Models;
+using SongApi.Repositories.Contracts;
 using SongApi.Services.Contracts;
 using SongApi.ViewModels;
 using SongApi.ViewModels.Users;
@@ -13,19 +13,16 @@ namespace SongApi.Controllers;
 [ApiController]
 public class AccountController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IUserRepository _repository;
     private readonly ITokenService _tokenService;
-
-    public AccountController(AppDbContext context, ITokenService tokenService)
+    public AccountController(IUserRepository repository, ITokenService tokenService)
     {
-        _context = context;
+        _repository = repository;
         _tokenService = tokenService;
     }
-
-
+    
     [HttpPost("v1/accounts/register")]
-    public async Task<IActionResult> Register(
-        RegisterUserViewModel model)
+    public async Task<IActionResult> Register(RegisterUserViewModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
@@ -39,10 +36,10 @@ public class AccountController : ControllerBase
 
         var password = model.Password;
         user.PasswordHash = PasswordHasher.Hash(password);
+
         try
         {
-            await _context.Users.AddAsync(user);
-            await _context.SaveChangesAsync();
+            await _repository.Save(user);
             return Created("v1/accounts", new ResultViewModel<dynamic>(new
             {
                 user = user.Email, password,
@@ -60,30 +57,28 @@ public class AccountController : ControllerBase
     }
 
     [HttpPost("v1/accounts/login")]
-    public async Task<IActionResult> Login(
-        LoginUserViewModel model)
+    public async Task<IActionResult> Login(LoginUserViewModel model)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ResultViewModel<string>(ModelState.GetErrors()));
-
-        var user = await _context.Users.Include(x => x.Roles).FirstOrDefaultAsync(x => x.Email == model.Email);
+        var user = await _repository.GetUserByEmail(model.Email);
         if (user == null)
             return StatusCode(401, new ResultViewModel<string>("Usuário não encontrado"));
 
         if (!PasswordHasher.Verify(user.PasswordHash, model.Password))
             return StatusCode(401, new ResultViewModel<string>("Usuário ou senha inválidos"));
-
+        
         try
         {
             var token = _tokenService.GenerateToken(user);
             return Ok(new ResultViewModel<dynamic>(new
             {
-                token
+                token = token
             }));
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            return StatusCode(500, new ResultViewModel<string>("Erro interno do servidor"));
+            return StatusCode(500, new ResultViewModel<string>(ex.Message));
         }
     }
 }
