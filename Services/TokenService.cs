@@ -1,7 +1,6 @@
 ﻿using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
-using SongApi.Extensions;
 using SongApi.Models;
 using SongApi.Services.Contracts;
 

@@ -1,5 +1,3 @@
-using SongApi.Extensions;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // User-Secrets
@@ -21,7 +19,9 @@ var app = builder.Build();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapEndpoints();
+
+// app.MapControllers();
 
 app.UseSwagger();
 app.UseSwaggerUI();

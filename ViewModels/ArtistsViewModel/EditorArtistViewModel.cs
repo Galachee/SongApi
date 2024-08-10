@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SongApi.ViewModels.Artists;
+namespace SongApi.ViewModels.ArtistsViewModel;
 
 public class EditorArtistViewModel
 {

@@ -14,6 +14,7 @@
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.6" />
+    <PackageReference Include="Microsoft.OpenApi" Version="1.6.17" />
     <PackageReference Include="SecureIdentity" Version="1.0.4" />
     <PackageReference Include="SwashBuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>

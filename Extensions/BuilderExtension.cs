@@ -1,7 +1,5 @@
-﻿
-using System.Security;
+﻿using System.Security;
 using System.Text;
-using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -30,7 +28,7 @@ public static class BuilderExtension
     {
         builder.AddServices();
         builder.AddRepositories();
-        builder.ConfigureMvc();
+        builder.ConfigureCache();
     }
     public static void AddServices(this WebApplicationBuilder builder)
     {
@@ -46,17 +44,18 @@ public static class BuilderExtension
         builder.Services.AddScoped<IArtistRepository, ArtistRepository>();
         builder.Services.AddScoped<ISongRepository, SongRepository>();
         builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddScoped<IPlaylistRepository, PlaylistRepository>();
     }
-    public static void ConfigureMvc(this WebApplicationBuilder builder)
+    public static void ConfigureCache(this WebApplicationBuilder builder)
     {
-        builder.Services.AddMemoryCache();
-        builder.Services.AddControllers()
-            .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true)
-            .AddJsonOptions(x =>
-            {
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-                x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
-            });
+        builder.Services.AddMemoryCache(); 
+        // builder.Services.AddControllers()
+        //     .ConfigureApiBehaviorOptions(options => options.SuppressModelStateInvalidFilter = true)
+        //     .AddJsonOptions(x =>
+        //     {
+        //         x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        //         x.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault;
+        //     });
     }
     
     public static void ConfigureAuthentication(this WebApplicationBuilder builder)

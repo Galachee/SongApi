@@ -1,7 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-
-namespace SongApi.ViewModels.Playlists;
+namespace SongApi.ViewModels.PlaylistsViewModel;
 
 public class EditorPlaylistViewModel
 {
