@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SongApi.ViewModels.Users;
+namespace SongApi.ViewModels.UsersViewModel;
 
 public class LoginUserViewModel
 {

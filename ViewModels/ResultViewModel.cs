@@ -1,4 +1,5 @@
-﻿namespace SongApi.ViewModels;
+﻿
+namespace SongApi.ViewModels;
 
 public class ResultViewModel<T> where T : class
 {

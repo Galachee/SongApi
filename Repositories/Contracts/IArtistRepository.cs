@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SongApi.Models;
 using SongApi.ViewModels;
-using SongApi.ViewModels.Artists;
 
 namespace SongApi.Repositories.Contracts;
 
