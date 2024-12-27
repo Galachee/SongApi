@@ -15,8 +15,9 @@ public class GetSongByIdEndpoint : IEndpoint
                 if (song == null)
                     return Results.NotFound(new ResultViewModel<string>("Musica não encontrada"));
 
-                return Results.Ok(new ResultViewModel< Song>(song));
+                return Results.Ok(new ResultViewModel<Song>(song));
             })
-            .WithDescription("Recupera uma musica pelo ID");
+            .WithName("Songs: Get by Id")
+            .WithSummary("Recupera uma musica pelo ID");
     }
 }

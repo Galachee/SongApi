@@ -12,8 +12,8 @@ public class CreateSongEndpoint : IEndpoint
     public static void Map(IEndpointRouteBuilder app)
     {
         app.MapPost("/", HandleAsync)
-            .WithName("Create Song")
-            .WithDescription("Adicionar uma nova música");
+            .WithName("Songs : Create")
+            .WithSummary("Adicionar uma nova música");
     }
 
     private static async Task<IResult> HandleAsync(ISongRepository repo, IArtistRepository artistRepo,

@@ -14,6 +14,7 @@ public class GetAllSongsEndpoint : IEndpoint
                 var songs = await repo.GetAllAsync(page, pageSize);
                 return Results.Ok(new ResultViewModel<List<Song>>(songs));
             })
-            .WithDescription("Recupera todas músicas");
+            .WithName("Songs: Get All")
+            .WithSummary("Recupera todas músicas");
     }
 }
