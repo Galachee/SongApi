@@ -18,6 +18,7 @@ public static class Endpoints
 
         endpoints.MapGroup("/v1/songs")
             .WithTags("Songs")
+            .RequireAuthorization()
             .MapEndpoint<GetAllSongsEndpoint>()
             .MapEndpoint<GetSongByIdEndpoint>()
             .MapEndpoint<CreateSongEndpoint>()
@@ -25,6 +26,7 @@ public static class Endpoints
             .MapEndpoint<DeleteSongEndpoint>();
 
         endpoints.MapGroup("/v1/artists")
+            .RequireAuthorization()
             .WithTags("Artists")
             .MapEndpoint<GetAllArtistsEndpoint>()
             .MapEndpoint<GetArtistByIdEndpoint>()
@@ -38,6 +40,7 @@ public static class Endpoints
             .MapEndpoint<AccountLoginEndpoint>();
 
         endpoints.MapGroup("v1/playlists")
+            .RequireAuthorization()
             .WithTags("Playlists")
             .MapEndpoint<GetAllPlaylistsEndpoint>()
             .MapEndpoint<CreatePlaylistEndpoint>();

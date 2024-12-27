@@ -18,6 +18,7 @@ public class DeleteSongEndpoint : IEndpoint
                     await repo.DeleteAsync(song);
                     return Results.NoContent();
                 })
-            .WithDescription("Excluí uma música existente");
+            .WithName("Songs : Delete")
+            .WithSummary("Excluír uma música existente");
     }
 }
